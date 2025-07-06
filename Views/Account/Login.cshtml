@@ -1,0 +1,144 @@
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+<!-- Style cho trang đăng nhập -->
+<style>
+    /* Màu nền cho toàn trang */
+    body {
+        background: #f6fff7;
+    }
+    /* Container chính chứa form đăng nhập */
+    .login-container {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        max-width: 400px;
+        margin: 40px auto;
+        padding: 32px 28px 24px 28px;
+        border: 1px solid #b6e7c9;
+    }
+    /* Style cho tiêu đề */
+    .login-container h2 {
+        color: #2e7d32;
+        margin-bottom: 24px;
+        font-weight: 700;
+    }
+    /* Style cho label của form */
+    .form-group label {
+        color: #388e3c;
+        font-weight: 500;
+    }
+    /* Style cho input fields */
+    .form-control {
+        border: 1px solid #b6e7c9;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        background: #f6fff7;
+    }
+    /* Style cho nút đăng nhập */
+    .btn-success {
+        background: #66bb6a;
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 6px;
+        padding: 8px 24px;
+        margin-top: 8px;
+        transition: background 0.2s;
+    }
+    /* Hiệu ứng hover cho nút */
+    .btn-success:hover {
+        background: #388e3c;
+    }
+    /* Style cho link đăng ký */
+    .link-register {
+        display: block;
+        margin-top: 16px;
+        color: #388e3c;
+        text-align: center;
+        font-size: 1.04em;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.18s;
+    }
+    /* Style cho thông báo lỗi */
+    .text-danger {
+        font-size: 0.95em;
+    }
+    /* Container cho trường mật khẩu và icon */
+    .password-field {
+        position: relative;
+    }
+    /* Style cho icon toggle mật khẩu */
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #666;
+        padding: 5px;
+        z-index: 10;
+    }
+    /* Hiệu ứng hover cho icon */
+    .toggle-password:hover {
+        color: #388e3c;
+    }
+</style>
+
+<!-- Import Font Awesome cho icon con mắt -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- Form đăng nhập -->
+<div class="login-container">
+    <h2>Đăng nhập</h2>
+    <form asp-action="Login" method="post">
+        <!-- Trường nhập email -->
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" class="form-control" required />
+        </div>
+        <!-- Trường nhập mật khẩu với icon toggle -->
+        <div class="form-group">
+            <label for="password">Mật khẩu</label>
+            <div class="password-field">
+                <input type="password" name="password" class="form-control" required />
+                <!-- Icon con mắt để toggle hiển thị/ẩn mật khẩu -->
+                <i class="toggle-password fas fa-eye" onclick="togglePassword()"></i>
+            </div>
+        </div>
+        <!-- Hiển thị thông báo lỗi nếu có -->
+        @if (ViewBag.Error != null)
+        {
+            <div class="text-danger">@ViewBag.Error</div>
+        }
+        <button type="submit" class="btn btn-success w-100">Đăng nhập</button>
+        <!-- Link chuyển đến trang đăng ký -->
+        <a asp-action="Register" class="link-register">Chưa có tài khoản? Đăng ký</a>
+    </form>
+</div>
+
+<!-- Script xử lý toggle hiển thị/ẩn mật khẩu -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Lấy reference đến icon và thêm sự kiện click
+    const toggleIcon = document.querySelector('.toggle-password');
+    toggleIcon.addEventListener('click', function() {
+        // Lấy reference đến input mật khẩu
+        const passwordField = document.querySelector('input[type="password"]') || document.querySelector('input[type="text"]');
+        
+        // Toggle giữa hiển thị và ẩn mật khẩu
+        if (passwordField.type === "password") {
+            // Chuyển sang hiển thị mật khẩu
+            passwordField.type = "text";
+            this.classList.remove("fa-eye");
+            this.classList.add("fa-eye-slash");
+        } else {
+            // Chuyển sang ẩn mật khẩu
+            passwordField.type = "password";
+            this.classList.remove("fa-eye-slash");
+            this.classList.add("fa-eye");
+        }
+    });
+});
+</script> 

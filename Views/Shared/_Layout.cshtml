@@ -8,6 +8,64 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebBanHang.styles.css" asp-append-version="true" />
+    <style>
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .btn-auth {
+            padding: 10px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            min-width: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 42px;
+        }
+        .btn-register {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+        }
+        .btn-register:hover {
+            background-color: #43A047;
+            color: white;
+            transform: translateY(-1px);
+        }
+        .btn-login {
+            background-color: white;
+            border: 2px solid #4CAF50;
+            color: #4CAF50;
+        }
+        .btn-login:hover {
+            background-color: #F1F8E9;
+            border-color: #43A047;
+            color: #43A047;
+            transform: translateY(-1px);
+        }
+        .btn-logout {
+            background-color: #f44336;
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .btn-logout:hover {
+            background-color: #e53935;
+            color: white;
+        }
+        .user-name {
+            font-weight: 600;
+            color: #2E7D32;
+            font-size: 15px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -26,6 +84,24 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        @if (Context.Session.GetInt32("UserId") == null)
+                        {
+                            <div class="auth-buttons">
+                                <a class="btn btn-auth btn-register" asp-controller="Account" asp-action="Register">Đăng ký</a>
+                                <a class="btn btn-auth btn-login" asp-controller="Account" asp-action="Login">Đăng nhập</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="auth-buttons">
+                                <span class="user-name">@Context.Session.GetString("UserName")</span>
+                                <form asp-controller="Account" asp-action="Logout" method="post">
+                                    <button type="submit" class="btn btn-logout">Đăng xuất</button>
+                                </form>
+                            </div>
+                        }
                     </ul>
                 </div>
             </div>
