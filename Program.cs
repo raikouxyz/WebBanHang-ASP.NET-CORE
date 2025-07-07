@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using WebBanHang.Admin;
 using WebBanHang.Data;
 
 
@@ -10,6 +11,7 @@ builder.Services.AddDbContext<WebBanHangContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
+builder.Services.AddScoped<Authorization>();
 
 var app = builder.Build();
 
